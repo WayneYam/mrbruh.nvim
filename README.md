@@ -15,7 +15,7 @@ With `lazy.nvim`
   {
     "WayneYam/mrbruh.nvim",
     opts = {},
-    keys = { "<F9>", "<F8>", "<C-F9>", "<C-F8>" },
+    cmd = { "CompileFile", "RunFile", "ToggleCompile", "ToggleRun" },
   },
 ```
 
@@ -25,4 +25,4 @@ With `lazy.nvim`
 
 ## Usage
 
-`<F9>`/`<F8>` to compile/run, `<C-F9>`/`<C-F8>` to toggle the respective terminals.
+Use either of the four functions to compile, run and toggle their respective terminals.

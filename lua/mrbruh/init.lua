@@ -111,7 +111,7 @@ local setup = function()
 	local compileTerminal = getCompileTerminal()
 	local runTerminal = getRunTerminal()
 
-	function CompileFile(path, filetype)
+	local function compileFile(path, filetype)
 		vim.cmd("wa")
 		path = path or getDefaultPath()
 		filetype = filetype or vim.filetype.match({ filename = path })
@@ -132,7 +132,7 @@ local setup = function()
 		end
 	end
 
-	function RunFile(path, filetype)
+	local function runFile(path, filetype)
 		path = path or getDefaultPath()
 		filetype = filetype or vim.filetype.match({ filename = path })
 		local cmd = getRunCommand(filetype, path, "")
@@ -161,7 +161,7 @@ local setup = function()
 		vim.defer_fn(owo, 50)
 	end
 
-	function ToggleCompile()
+	local function toggleCompile()
 		if not TermExist.compile then
 			compileTerminal = getCompileTerminal()
 			compileTerminal:open()
@@ -171,7 +171,7 @@ local setup = function()
 		end
 	end
 
-	function ToggleRun()
+	local function toggleRun()
 		if not TermExist.run then
 			runTerminal = getRunTerminal()
 			runTerminal:open()
@@ -181,10 +181,31 @@ local setup = function()
 		end
 	end
 
-	vim.keymap.set({ "n", "i", "t" }, "<F9>", "<cmd>lua CompileFile()<CR>")
-	vim.keymap.set({ "n", "i", "t" }, "<F8>", "<cmd>lua RunFile()<CR>")
-	vim.keymap.set({ "n", "i", "t" }, "<C-F9>", "<cmd>lua ToggleCompile()<CR>")
-	vim.keymap.set({ "n", "i", "t" }, "<C-F8>", "<cmd>lua ToggleRun()<CR>")
+	local read_opt = function(opt)
+		local ret = {}
+		for _, str in ipairs(opt.fargs) do
+			local key, value = string.match(str, "^(.-)=(.-)$")
+			if key and value then
+				ret[key] = value
+			end
+		end
+		return ret
+	end
+
+	vim.api.nvim_create_user_command("ToggleCompile", function()
+		toggleCompile()
+	end, {})
+	vim.api.nvim_create_user_command("ToggleRun", function()
+		toggleRun()
+	end, {})
+	vim.api.nvim_create_user_command("CompileFile", function(opt)
+		opt = read_opt(opt)
+		compileFile(opt.path, opt.filetype)
+	end, { nargs = "*" })
+	vim.api.nvim_create_user_command("RunFile", function(opt)
+		opt = read_opt(opt)
+		runFile(opt.path, opt.filetype)
+	end, { nargs = "*" })
 end
 
 return {
