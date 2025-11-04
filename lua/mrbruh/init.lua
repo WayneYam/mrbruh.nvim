@@ -1,7 +1,7 @@
 local setup = function()
 	local compile_arg = {
-		cpp = "g++ -g -Dzisk -Wall -Wextra -Wshadow -Wno-sign-conversion -std=c++17 -O2 -fsanitize=address,undefined $file -o $dir/_$fileNameWithoutExt",
-		cpp_debug = "g++ -g -Dzisk -DDAP_DEBUG -Wall -Wextra -Wshadow -Wno-sign-conversion -std=c++17 -O0 -fsanitize=address,undefined $file -o $dir/_$fileNameWithoutExt_debug",
+		cpp = "g++ -g -Dzisk -Wall -Wextra -Wshadow -Wno-sign-conversion -std=c++23 -O2 -fsanitize=address,undefined $file -o $dir/_$fileNameWithoutExt",
+		cpp_debug = "g++ -g -Dzisk -DDAP_DEBUG -Wall -Wextra -Wshadow -Wno-sign-conversion -std=c++23 -O0 -fsanitize=address,undefined $file -o $dir/_$fileNameWithoutExt_debug",
 		c = "gcc $file -o $dir/_$fileNameWithoutExt",
 		haskell = "ghc -O2 -Wall $dir/$file -o $dir/_$fileNameWithoutExt",
 		-- cpp = "g++ D_GLIBCXX_DEBUG -D_GLIBCXX_ASSERTIONS -g -Dzisk -Wall -Wextra -Wshadow -Wno-sign-conversion -std=c++17 -O2 -fsanitize=address,undefined $file -o $dir/_$fileNameWithoutExt"
